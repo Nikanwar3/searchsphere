@@ -1,0 +1,97 @@
+{
+  "python": {
+    "uncached": {
+      "count": 100,
+      "mean_ms": 3.1127,
+      "median_ms": 2.1745,
+      "p95_ms": 2.9953,
+      "min_ms": 1.7065,
+      "max_ms": 61.0548
+    },
+    "cached": {
+      "count": 100,
+      "mean_ms": 1.422,
+      "median_ms": 1.3751,
+      "p95_ms": 1.5864,
+      "min_ms": 1.293,
+      "max_ms": 3.0682
+    },
+    "speedup_x": 2.19
+  },
+  "ranking index": {
+    "uncached": {
+      "count": 100,
+      "mean_ms": 1.9829,
+      "median_ms": 1.9614,
+      "p95_ms": 2.2741,
+      "min_ms": 1.7612,
+      "max_ms": 2.5857
+    },
+    "cached": {
+      "count": 100,
+      "mean_ms": 1.4697,
+      "median_ms": 1.4123,
+      "p95_ms": 1.8386,
+      "min_ms": 1.2865,
+      "max_ms": 2.7265
+    },
+    "speedup_x": 1.35
+  },
+  "quantum": {
+    "uncached": {
+      "count": 100,
+      "mean_ms": 1.7724,
+      "median_ms": 1.7454,
+      "p95_ms": 1.9822,
+      "min_ms": 1.6166,
+      "max_ms": 2.3216
+    },
+    "cached": {
+      "count": 100,
+      "mean_ms": 1.431,
+      "median_ms": 1.4139,
+      "p95_ms": 1.6298,
+      "min_ms": 1.2752,
+      "max_ms": 1.9096
+    },
+    "speedup_x": 1.24
+  },
+  "chef recipe": {
+    "uncached": {
+      "count": 100,
+      "mean_ms": 2.0571,
+      "median_ms": 2.0181,
+      "p95_ms": 2.4061,
+      "min_ms": 1.8113,
+      "max_ms": 2.759
+    },
+    "cached": {
+      "count": 100,
+      "mean_ms": 1.4168,
+      "median_ms": 1.384,
+      "p95_ms": 1.5717,
+      "min_ms": 1.2793,
+      "max_ms": 2.3063
+    },
+    "speedup_x": 1.45
+  },
+  "stadium championship": {
+    "uncached": {
+      "count": 100,
+      "mean_ms": 1.9583,
+      "median_ms": 1.9355,
+      "p95_ms": 2.201,
+      "min_ms": 1.7712,
+      "max_ms": 2.4812
+    },
+    "cached": {
+      "count": 100,
+      "mean_ms": 1.403,
+      "median_ms": 1.3824,
+      "p95_ms": 1.5264,
+      "min_ms": 1.2744,
+      "max_ms": 2.064
+    },
+    "speedup_x": 1.4
+  }
+}

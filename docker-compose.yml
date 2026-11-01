@@ -1,0 +1,45 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-searchsphere}
+      POSTGRES_USER: ${POSTGRES_USER:-searchsphere}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-searchsphere}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-searchsphere}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-searchsphere}:${POSTGRES_PASSWORD:-searchsphere}@postgres:5432/${POSTGRES_DB:-searchsphere}
+      REDIS_URL: redis://redis:6379/0
+      CACHE_TTL_SECONDS: ${CACHE_TTL_SECONDS:-60}
+      BM25_K1: ${BM25_K1:-1.5}
+      BM25_B: ${BM25_B:-0.75}
+    ports:
+      - "8000:8000"
+
+volumes:
+  postgres_data:

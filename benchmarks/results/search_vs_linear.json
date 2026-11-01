@@ -1,0 +1,264 @@
+{
+  "corpus_sizes": {
+    "100": {
+      "index_memory_delta_mb": 0.312,
+      "queries": {
+        "python": {
+          "indexed": {
+            "count": 200,
+            "mean_ms": 0.0092,
+            "median_ms": 0.008,
+            "p95_ms": 0.0083,
+            "min_ms": 0.0075,
+            "max_ms": 0.2372
+          },
+          "linear_scan": {
+            "count": 200,
+            "mean_ms": 0.0413,
+            "median_ms": 0.0413,
+            "p95_ms": 0.042,
+            "min_ms": 0.0364,
+            "max_ms": 0.0519
+          },
+          "speedup_x": 4.48,
+          "matching_documents": 20
+        },
+        "index ranking": {
+          "indexed": {
+            "count": 200,
+            "mean_ms": 0.0161,
+            "median_ms": 0.0165,
+            "p95_ms": 0.0176,
+            "min_ms": 0.0143,
+            "max_ms": 0.0213
+          },
+          "linear_scan": {
+            "count": 200,
+            "mean_ms": 0.0496,
+            "median_ms": 0.0494,
+            "p95_ms": 0.0514,
+            "min_ms": 0.048,
+            "max_ms": 0.0652
+          },
+          "speedup_x": 3.07,
+          "matching_documents": 20
+        },
+        "quantum": {
+          "indexed": {
+            "count": 200,
+            "mean_ms": 0.0066,
+            "median_ms": 0.0067,
+            "p95_ms": 0.0069,
+            "min_ms": 0.0063,
+            "max_ms": 0.0077
+          },
+          "linear_scan": {
+            "count": 200,
+            "mean_ms": 0.0357,
+            "median_ms": 0.0353,
+            "p95_ms": 0.0379,
+            "min_ms": 0.0344,
+            "max_ms": 0.0551
+          },
+          "speedup_x": 5.36,
+          "matching_documents": 16
+        }
+      }
+    },
+    "500": {
+      "index_memory_delta_mb": 1.625,
+      "queries": {
+        "python": {
+          "indexed": {
+            "count": 200,
+            "mean_ms": 0.0354,
+            "median_ms": 0.0352,
+            "p95_ms": 0.037,
+            "min_ms": 0.0337,
+            "max_ms": 0.0506
+          },
+          "linear_scan": {
+            "count": 200,
+            "mean_ms": 0.1918,
+            "median_ms": 0.1906,
+            "p95_ms": 0.1968,
+            "min_ms": 0.1879,
+            "max_ms": 0.262
+          },
+          "speedup_x": 5.42,
+          "matching_documents": 100
+        },
+        "index ranking": {
+          "indexed": {
+            "count": 200,
+            "mean_ms": 0.068,
+            "median_ms": 0.0679,
+            "p95_ms": 0.0697,
+            "min_ms": 0.0657,
+            "max_ms": 0.084
+          },
+          "linear_scan": {
+            "count": 200,
+            "mean_ms": 0.2685,
+            "median_ms": 0.2553,
+            "p95_ms": 0.2948,
+            "min_ms": 0.2489,
+            "max_ms": 0.3364
+          },
+          "speedup_x": 3.95,
+          "matching_documents": 100
+        },
+        "quantum": {
+          "indexed": {
+            "count": 200,
+            "mean_ms": 0.0288,
+            "median_ms": 0.0283,
+            "p95_ms": 0.0297,
+            "min_ms": 0.0271,
+            "max_ms": 0.0682
+          },
+          "linear_scan": {
+            "count": 200,
+            "mean_ms": 0.1828,
+            "median_ms": 0.1814,
+            "p95_ms": 0.1874,
+            "min_ms": 0.1789,
+            "max_ms": 0.251
+          },
+          "speedup_x": 6.36,
+          "matching_documents": 82
+        }
+      }
+    },
+    "1000": {
+      "index_memory_delta_mb": 2.609,
+      "queries": {
+        "python": {
+          "indexed": {
+            "count": 200,
+            "mean_ms": 0.0686,
+            "median_ms": 0.068,
+            "p95_ms": 0.0713,
+            "min_ms": 0.066,
+            "max_ms": 0.0886
+          },
+          "linear_scan": {
+            "count": 200,
+            "mean_ms": 0.3874,
+            "median_ms": 0.3856,
+            "p95_ms": 0.4023,
+            "min_ms": 0.3779,
+            "max_ms": 0.4538
+          },
+          "speedup_x": 5.65,
+          "matching_documents": 200
+        },
+        "index ranking": {
+          "indexed": {
+            "count": 200,
+            "mean_ms": 0.1338,
+            "median_ms": 0.1333,
+            "p95_ms": 0.1375,
+            "min_ms": 0.13,
+            "max_ms": 0.1557
+          },
+          "linear_scan": {
+            "count": 200,
+            "mean_ms": 0.5069,
+            "median_ms": 0.5035,
+            "p95_ms": 0.5226,
+            "min_ms": 0.4989,
+            "max_ms": 0.6061
+          },
+          "speedup_x": 3.79,
+          "matching_documents": 200
+        },
+        "quantum": {
+          "indexed": {
+            "count": 200,
+            "mean_ms": 0.0538,
+            "median_ms": 0.0534,
+            "p95_ms": 0.0557,
+            "min_ms": 0.0517,
+            "max_ms": 0.0692
+          },
+          "linear_scan": {
+            "count": 200,
+            "mean_ms": 0.3674,
+            "median_ms": 0.3652,
+            "p95_ms": 0.3795,
+            "min_ms": 0.3608,
+            "max_ms": 0.416
+          },
+          "speedup_x": 6.84,
+          "matching_documents": 157
+        }
+      }
+    },
+    "2000": {
+      "index_memory_delta_mb": 4.781,
+      "queries": {
+        "python": {
+          "indexed": {
+            "count": 200,
+            "mean_ms": 0.136,
+            "median_ms": 0.1351,
+            "p95_ms": 0.1391,
+            "min_ms": 0.1318,
+            "max_ms": 0.1619
+          },
+          "linear_scan": {
+            "count": 200,
+            "mean_ms": 0.7773,
+            "median_ms": 0.7738,
+            "p95_ms": 0.7995,
+            "min_ms": 0.7636,
+            "max_ms": 1.0104
+          },
+          "speedup_x": 5.72,
+          "matching_documents": 400
+        },
+        "index ranking": {
+          "indexed": {
+            "count": 200,
+            "mean_ms": 0.2666,
+            "median_ms": 0.2661,
+            "p95_ms": 0.2714,
+            "min_ms": 0.2581,
+            "max_ms": 0.2954
+          },
+          "linear_scan": {
+            "count": 200,
+            "mean_ms": 1.0149,
+            "median_ms": 1.0085,
+            "p95_ms": 1.0415,
+            "min_ms": 0.9988,
+            "max_ms": 1.2434
+          },
+          "speedup_x": 3.81,
+          "matching_documents": 400
+        },
+        "quantum": {
+          "indexed": {
+            "count": 200,
+            "mean_ms": 0.1071,
+            "median_ms": 0.1065,
+            "p95_ms": 0.1135,
+            "min_ms": 0.1034,
+            "max_ms": 0.1283
+          },
+          "linear_scan": {
+            "count": 200,
+            "mean_ms": 0.7382,
+            "median_ms": 0.7338,
+            "p95_ms": 0.7546,
+            "min_ms": 0.728,
+            "max_ms": 0.9498
+          },
+          "speedup_x": 6.9,
+          "matching_documents": 315
+        }
+      }
+    }
+  }
+}

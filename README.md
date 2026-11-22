@@ -18,6 +18,7 @@ wrap an existing engine.
 - [API reference & examples](#api-reference--examples)
 - [Concurrency & caching design](#concurrency--caching-design)
 - [Setup](#setup)
+- [CI/CD & Kubernetes deployment](#cicd--kubernetes-deployment)
 - [Testing](#testing)
 - [Benchmarks — methodology and actual results](#benchmarks--methodology-and-actual-results)
 - [Limitations & future scaling work](#limitations--future-scaling-work)
@@ -261,6 +262,30 @@ python scripts/generate_sample_data.py      # writes data/sample_documents.json 
 python scripts/seed_db.py --reset           # loads it into PostgreSQL + the live index
 ```
 
+## CI/CD & Kubernetes deployment
+
+[`.github/workflows/ci-cd.yml`](.github/workflows/ci-cd.yml) runs on every
+push/PR to `main`:
+
+1. **`test`** — the full suite (`pytest tests/ -v --cov=app`) against real
+   Postgres/Redis service containers, not mocks.
+2. **`docker-build`** — the image builds cleanly (runs on PRs too, no
+   registry credentials needed).
+3. **`publish`** *(push to `main` only, after 1 and 2 pass)* — builds and
+   pushes `ghcr.io/nikanwar3/searchsphere` to GitHub Container Registry,
+   tagged `latest` and the commit SHA, using the workflow's own
+   `GITHUB_TOKEN` (no registry secrets to manage). A final step rolls the
+   image out to a live cluster via `kubectl apply -k k8s/`, but only runs
+   if a `KUBE_CONFIG_DATA` secret is configured — the image still publishes
+   either way.
+
+[`k8s/`](k8s/) holds the Kubernetes manifests (Deployment/Service for the
+API, self-contained Postgres/Redis, ConfigMap, optional Ingress, tied
+together with a `kustomization.yaml`). See [`k8s/README.md`](k8s/README.md)
+for `kubectl apply` instructions — including **why the API Deployment is
+pinned to `replicas: 1`**, which ties directly into the in-memory-index
+limitation covered below.
+
 ## Testing
 
 ```bash
@@ -441,6 +466,12 @@ in production. Fixes, roughly in order of complexity:
    operational complexity of (1)/(2) exceeds what's worth hand-rolling —
    the point of this project is to show the algorithms are understood, not
    to avoid ever using a real search cluster in production.
+
+This is also why [`k8s/api-deployment.yaml`](k8s/api-deployment.yaml) pins
+`replicas: 1` rather than shipping a `HorizontalPodAutoscaler` by default —
+scaling the Deployment today would silently reintroduce this exact
+inconsistency as pod-to-pod staleness instead of process-to-process
+staleness. Enable multi-replica/HPA only once (1) or (2) above lands.
 
 **The shared `RLock` serializes all index reads and writes.** Correct, but
 read throughput on a single process is bounded by lock contention, not by

@@ -1,0 +1,59 @@
+# replicas is pinned to 1 on purpose, not a placeholder to bump later without
+# thought: the in-memory IndexManager (inverted index + trie) is per-process
+# and only rebuilt from Postgres on startup (see app/main.py). Running >1
+# replica today means a document ingested via one pod is invisible to
+# searches hitting another pod until that pod restarts -- see "Limitations &
+# future scaling work" in the root README. Scale this past 1 only after the
+# pub/sub index-delta broadcast (or sharded ownership) described there is
+# implemented; until then, use requests/limits + vertical headroom, not HPA.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: searchsphere-api
+  namespace: searchsphere
+  labels:
+    app.kubernetes.io/name: searchsphere-api
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate # avoid a rolling window where old+new pods both rebuild
+                    # their own index from Postgres and briefly disagree
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: searchsphere-api
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: searchsphere-api
+    spec:
+      containers:
+        - name: api
+          image: ghcr.io/nikanwar3/searchsphere:latest
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: searchsphere-config
+            - secretRef:
+                name: searchsphere-secrets
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 20
+            periodSeconds: 15
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi

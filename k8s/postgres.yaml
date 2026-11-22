@@ -1,0 +1,85 @@
+# Self-contained Postgres for demo/dev clusters, mirroring docker-compose.yml.
+# A managed database (RDS/Cloud SQL/etc.) is the right call in a real
+# production deployment -- this Deployment exists so the whole stack is
+# reproducible with nothing but `kubectl apply -k k8s/`.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: searchsphere-postgres
+  namespace: searchsphere
+  labels:
+    app.kubernetes.io/name: searchsphere-postgres
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate # single PVC writer -- never roll this as RollingUpdate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: searchsphere-postgres
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: searchsphere-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16-alpine
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: searchsphere
+            - name: POSTGRES_USER
+              value: searchsphere
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: searchsphere-secrets
+                  key: POSTGRES_PASSWORD
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+          readinessProbe:
+            exec:
+              command: ["pg_isready", "-U", "searchsphere"]
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            exec:
+              command: ["pg_isready", "-U", "searchsphere"]
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: searchsphere-postgres-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: searchsphere-postgres-pvc
+  namespace: searchsphere
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: searchsphere-postgres
+  namespace: searchsphere
+spec:
+  selector:
+    app.kubernetes.io/name: searchsphere-postgres
+  ports:
+    - port: 5432
+      targetPort: 5432

@@ -1,0 +1,15 @@
+# Non-secret runtime configuration, mapped 1:1 to app/config.py's Settings
+# fields (pydantic-settings reads these env vars case-insensitively).
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: searchsphere-config
+  namespace: searchsphere
+data:
+  CACHE_TTL_SECONDS: "60"
+  BM25_K1: "1.5"
+  BM25_B: "0.75"
+  API_TITLE: "SearchSphere"
+  API_DEFAULT_PAGE_SIZE: "10"
+  API_MAX_PAGE_SIZE: "100"
+  AUTOCOMPLETE_MAX_SUGGESTIONS: "10"

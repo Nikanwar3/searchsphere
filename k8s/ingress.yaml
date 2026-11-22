@@ -1,0 +1,23 @@
+# Optional -- only applies if an ingress-nginx controller is installed in
+# the cluster. Skip this file (kustomize resources list it explicitly) if
+# you're exposing the Service another way (port-forward, LoadBalancer, etc).
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: searchsphere-api
+  namespace: searchsphere
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: searchsphere.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: searchsphere-api
+                port:
+                  number: 80

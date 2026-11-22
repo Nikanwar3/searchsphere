@@ -16,3 +16,4 @@ benchmarks/results/*.tmp
 .idea/
 .vscode/
 *.db
+k8s/secret.yaml

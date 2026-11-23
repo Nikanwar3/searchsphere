@@ -407,7 +407,7 @@ at 50 concurrent users partly because the majority of `/search` traffic
 in a real workload (the Locust task mix below is skewed toward a small set
 of popular terms, as real query logs are) hits the cache.
 
-Full raw output: [`benchmarks/results/cache_comparison.json`](benchmarks/results/cache_comparison.json).
+Full raw output: [`benchmarks/results/cache_comparison.json`](benchmarks/results/cache_comparison.json)..
 
 ### 4. Load test (Locust)
 
